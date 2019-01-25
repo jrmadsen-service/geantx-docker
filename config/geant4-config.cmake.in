@@ -1,0 +1,29 @@
+
+# cmake settings
+set(CMAKE_INSTALL_PREFIX        /usr/local      CACHE PATH      "Installation prefix")
+set(CMAKE_BUILD_TYPE            @BUILD_TYPE@    CACHE STRING    "Build type")
+
+# general settings
+set(BUILD_SHARED_LIBS           @SHARED@        CACHE BOOL      "Enable shared libraries")
+set(BUILD_STATIC_LIBS           @STATIC@        CACHE BOOL      "Disable static libraries")
+set(GEANT4_INSTALL_DATA         ON              CACHE BOOL      "Install data")
+set(GEANT4_INSTALL_DATADIR      /data           CACHE PATH      "Install data dir")
+
+# build settings
+set(GEANT4_BUILD_CXXSTD         @CXXSTD@        CACHE STRING    "C++ standard")
+set(GEANT4_BUILD_MULTITHREADED  @MT@            CACHE BOOL      "Build MT")
+set(GEANT4_BUILD_TLS_MODEL      @TLS@           CACHE BOOL      "TLS model")
+set(GEANT4_BUILD_TESTS          @TESTS@         CACHE BOOL      "Build tests")
+set(GEANT4_ENABLE_TESTING       @TESTS@         CACHE BOOL      "Enable test")
+# set(GEANT4_BUILD_VERBOSE_CODE @VERBOSE@       CACHE BOOL      "Verbose code")
+
+# package settings
+set(GEANT4_USE_GDML             ON              CACHE BOOL      "Use GDML") # ALWAYS
+set(GEANT4_USE_HDF5             ON              CACHE BOOL      "Use HDF5")
+set(GEANT4_USE_TIMEMORY         @USE_TIMEMORY@  CACHE BOOL      "Enable TiMemory")
+set(GEANT4_USE_USOLIDS          @USE_USOLIDS@   CACHE BOOL      "Use USolid backend")
+
+# visualization specific packages
+set(GEANT4_USE_OPENGL_X11       @USE_X11@       CACHE BOOL      "Use OpenGL")
+set(GEANT4_USE_QT               @USE_QT@        CACHE BOOL      "Use Qt viz")
+set(GEANT4_USE_RAYTRACER_X11    @USE_X11@       CACHE BOOL      "Use Raytracer viz")

@@ -1,0 +1,24 @@
+version: "3.3"
+
+# Building:
+#
+# $ docker-compose -f docker-compose-gcc-full.yml up --no-start --build
+#
+
+services:
+    #--------------------------------------------------------------------------#
+    # geant4 base
+    base:
+      image: geantx/geant4
+      stdin_open: true
+      tty: true
+      build:
+        context: .
+        dockerfile: Dockerfile
+        args:
+          COMPILER_TYPE: "gcc"
+          COMPILER_VERSION: "7"
+          BUILD_TYPE: "Release"
+          TIMEMORY: "OFF"
+          SOFTWARE: "geant4"
+

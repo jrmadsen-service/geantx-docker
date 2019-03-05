@@ -55,7 +55,7 @@ RUN ./${SOFTWARE}-depend.sh
 # build the software
 RUN ./${SOFTWARE}-build.sh
 # clean up
-RUN shopt -s dotglob && rm -rf /tmp/*
+RUN rm -rf /tmp/*
 
 ################################################################################
 #   Build stage 2 - compress to 1 layer

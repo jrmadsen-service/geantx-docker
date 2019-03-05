@@ -1,25 +1,40 @@
 #!/bin/bash -e
 
 notif=" Environment: "
-other="##############"
-comment="########################"
+comment="##############################################################"
 
-echo -e "\n${comment}${notif}${comment}\n"
-env
-echo -e "\n${comment}${other}${comment}\n"
+run-verbose()
+{
+    echo -e "\n${comment}\n#\n# --> Running command: '${@}'...\n#\n${comment}\n"
+    eval $@
+}
 
-
-while [ ! -f "${PWD}/Dockerfile" ]; do
-    cd ..
-done
-
-echo "PWD: $(pwd)"
+run-verbose env
+while [ ! -f "${PWD}/Dockerfile" ]; do cd .. ; done
+run-verbose echo "PWD: \$(pwd)"
+run-verbose find .
 
 if [ "${DOCKER_REPO}" = "geantx/geant4" ]; then
-    docker-compose build --parallel geant4
+    run-verbose \
+        docker build . -t ${IMAGE_NAME} \
+        --build-arg BASE_IMG="ubuntu" \
+        --build-arg BASE_TAG="latest" \
+        --build-arg COMPILER_TYPE="gcc" \
+        --build-arg COMPILER_VERSION="7" \
+        --build-arg BUILD_TYPE="Release" \
+        --build-arg TIMEMORY="ON" \
+        --build-arg SOFTWARE="geant4"
 elif [ "${DOCKER_REPO}" = "geantx/geantv" ]; then
-    docker-compose build --parallel geantx
+    run-verbose \
+        docker build . -t ${IMAGE_NAME} \
+        --build-arg BASE_IMG="ubuntu" \
+        --build-arg BASE_TAG="latest" \
+        --build-arg COMPILER_TYPE="gcc" \
+        --build-arg COMPILER_VERSION="7" \
+        --build-arg BUILD_TYPE="Release" \
+        --build-arg TIMEMORY="ON" \
+        --build-arg SOFTWARE="geantv"
 else
-    echo -e "\n${comment}${other}${comment}\n\nError:\n\tUnknown value for DOCKER_REPO=\"${DOCKER_REPO}\"\nExiting...\n\n${comment}${other}${comment}\n"
+    echo -e "\n${comment}\n#\n# Error: Unknown value for DOCKER_REPO=\"${DOCKER_REPO}\"\n# Exiting...\n#\n${comment}\n"
     exit 1
 fi

@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-notif=" Environment: "
 comment="##############################################################"
 
 run-verbose()

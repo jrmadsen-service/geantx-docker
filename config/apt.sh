@@ -13,10 +13,7 @@ run-verbose()
 #
 #-----------------------------------------------------------------------------#
 
-# update
 run-verbose apt-get update
-
-# repository for newer compilers
 run-verbose apt-get install -y software-properties-common
 run-verbose add-apt-repository -u -y ppa:ubuntu-toolchain-r/test
 run-verbose apt-get dist-upgrade -y
@@ -27,7 +24,7 @@ run-verbose apt-get dist-upgrade -y
 #
 #-----------------------------------------------------------------------------#
 
-run-verbose apt-get install -y build-essential cmake git-core
+run-verbose apt-get install -y wget curl build-essential cmake git-core
 
 #-----------------------------------------------------------------------------#
 #
@@ -54,22 +51,11 @@ fi
 #-----------------------------------------------------------------------------#
 
 run-verbose apt-get install -y \
-    libxerces-c-dev libexpat1-dev libhdf5-dev \
-    xserver-xorg libhdf5-openmpi-dev freeglut3-dev \
-    libx11-dev libx11-xcb-dev libxpm-dev libxft-dev libxmu-dev libxv-dev libxrandr-dev \
-    libglew-dev libftgl-dev libxkbcommon-x11-dev libxrender-dev libxxf86vm-dev libxinerama-dev \
-    qt5-default
-
-#-----------------------------------------------------------------------------#
-#
-#   TiMemory
-#
-#-----------------------------------------------------------------------------#
-
-if [ "${TIMEMORY}" = "ON" ]; then
-    # TODO: build timemory
-    echo "TiMemory not setup"
-fi
+    libxerces-c-dev libexpat1-dev libhdf5-dev libhdf5-openmpi-dev \
+    xserver-xorg freeglut3-dev libx11-dev libx11-xcb-dev libxpm-dev libxft-dev libxmu-dev libxv-dev libxrandr-dev \
+    libglew-dev libftgl-dev libxkbcommon-x11-dev libxrender-dev libxxf86vm-dev libxinerama-dev qt5-default \
+    emacs-nox vim-nox python3-dev ninja-build \
+    manpages manpages-dev cppman manpages-posix manpages-posix-dev
 
 #-----------------------------------------------------------------------------#
 #   ALTERNATIVES

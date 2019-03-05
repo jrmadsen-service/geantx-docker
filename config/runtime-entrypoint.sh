@@ -1,18 +1,4 @@
-#!/bin/bash -le
-
-#------------------------------------------------------------------------------#
-# make sure all startup files are sourced
-#------------------------------------------------------------------------------#
-
-if j in profile bashrc
-do
-    if [ -d /etc/${j}.d ]; then
-        for i in /etc/${j}.d/*.sh
-        do
-            if [ -f ${i} ]; then source ${i}; fi
-        done
-    fi
-done
+#!/bin/bash -l
 
 #------------------------------------------------------------------------------#
 #   run command

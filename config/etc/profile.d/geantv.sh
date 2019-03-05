@@ -11,5 +11,6 @@ file-source()
     done
 }
 
-file-source geant4.sh
 file-source thisroot.sh
+file-source geantv.sh
+file-source geant.sh

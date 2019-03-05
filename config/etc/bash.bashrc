@@ -2,6 +2,8 @@
 
 # To enable the settings / commands in this file for login shells as well,
 # this file has to be sourced in /etc/profile.
+PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin"
+export PATH
 
 if [ -d /etc/bashrc.d ]; then
     for i in /etc/bashrc.d/*.sh; do

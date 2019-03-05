@@ -16,8 +16,46 @@ services:
         context: .
         dockerfile: Dockerfile
         args:
+          BASE_IMG: "ubuntu"
+          BASE_TAG: "latest"
           COMPILER_TYPE: "gcc"
           COMPILER_VERSION: "7"
           BUILD_TYPE: "Release"
           TIMEMORY: "OFF"
           SOFTWARE: "geant4"
+
+    #--------------------------------------------------------------------------#
+    # GeantV container
+    geantv:
+      image: geantx/geantv
+      stdin_open: true
+      tty: true
+      build:
+        context: .
+        dockerfile: Dockerfile
+        args:
+          BASE_IMG: "ubuntu"
+          BASE_TAG: "latest"
+          COMPILER_TYPE: "gcc"
+          COMPILER_VERSION: "7"
+          BUILD_TYPE: "Release"
+          TIMEMORY: "OFF"
+          SOFTWARE: "geantv"
+
+    #--------------------------------------------------------------------------#
+    # Geant4 + GeantV container
+    geant4v:
+      image: geantx/geant4v
+      stdin_open: true
+      tty: true
+      build:
+        context: .
+        dockerfile: Dockerfile
+        args:
+          BASE_IMG: "geantx/geant4"
+          BASE_TAG: "latest"
+          COMPILER_TYPE: "gcc"
+          COMPILER_VERSION: "7"
+          BUILD_TYPE: "Release"
+          TIMEMORY: "OFF"
+          SOFTWARE: "geantv"

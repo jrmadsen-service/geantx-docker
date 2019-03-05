@@ -7,9 +7,10 @@ run-verbose()
     eval $@
 }
 
+# work in this directory
 cd /tmp
 
-# default settings
+# default settings, can be overridden by environment settings in Dockerfile
 : ${BUILD_TYPE:=Release}
 : ${SHARED:=ON}
 : ${STATIC:=OFF}
@@ -18,9 +19,9 @@ cd /tmp
 : ${TLS:=initial-exec}
 : ${USE_TIMEMORY:=OFF}
 : ${USE_HDF5:=OFF}
-: ${USE_X11:=OFF}
-: ${USE_QT:=OFF}
-: ${VERBOSE:=ON}
+: ${USE_X11:=ON}
+: ${USE_QT:=ON}
+: ${VERBOSE:=OFF}
 : ${USE_USOLIDS:=OFF}
 : ${TYPE:=minimal}
 : ${TAG:="master"}
@@ -29,27 +30,6 @@ cd /tmp
 if [ -n "$(which nproc)" ]; then
     PARALLEL_JOBS=$(nproc)
 fi
-
-export BUILD_TYPE SHARED STATIC CXXSTD MT TLS USE_TIMEMORY USE_HDF5 USE_X11 USE_QT
-export TAG VERBOSE USE_USOLIDS TYPE
-
-# echo for debugging
-echo -e "\n\n####################################################################################\n"
-env | sort
-echo -e "\n\n####################################################################################\n"
-
-#-----------------------------------------------------------------------------#
-#
-#   configuration for CMake
-#
-#-----------------------------------------------------------------------------#
-
-if [ "${TIMEMORY}" = "ON" ]; then USE_TIMEMORY=ON; fi
-
-VERBOSE=OFF
-USE_X11=ON
-USE_QT=ON
-USE_HDF5=OFF
 
 #-----------------------------------------------------------------------------#
 #
@@ -67,6 +47,7 @@ if [ -n "${TAG}" ]; then
     cd /tmp
 fi
 
+# make a build directory
 mkdir /tmp/geant4-build
 
 # generate the CMake configuration
@@ -90,18 +71,23 @@ run-verbose \
 
 #-----------------------------------------------------------------------------#
 
+# enter build directory
 cd /tmp/geant4-build
+
 # echo for debugging
 echo -e "\n\n####################################################################################\n"
 cat geant4-config.cmake
 echo -e "\n\n####################################################################################\n"
+
 # run CMake
 run-verbose cmake -C geant4-config.cmake /tmp/geant4-source
+
+# copy cmake configuration to place it can be referred to later
 cp geant4-config.cmake /usr/local/share/
 
 #-----------------------------------------------------------------------------#
 
-# build Geant4
+# build and install Geant4
 run-verbose make -j${PARALLEL_JOBS} install
 
 #-----------------------------------------------------------------------------#

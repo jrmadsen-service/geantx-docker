@@ -40,17 +40,22 @@ ENV CXXSTD          ${CXXSTD}
 ENV TIMEMORY        ${TIMEMORY}
 ENV SOFTWARE        ${SOFTWARE}
 
-# cmake configuration
-COPY ./config/${SOFTWARE}-config.cmake.in /tmp/${SOFTWARE}-config.cmake.in
+# cmake script for generating templates
 COPY ./config/configure-file.cmake /tmp/configure-file.cmake
 
-# build the dependencies
-COPY ./config/${SOFTWARE}-depend.sh /tmp/${SOFTWARE}-depend.sh
-RUN ./${SOFTWARE}-depend.sh
+# copy over all the "-config", "-depend", and "-build" scripts
+COPY ./config/*-depend.sh /tmp/
+COPY ./config/*-build.sh /tmp/
+COPY ./config/*-config.cmake.in /tmp/
 
+# build the common dependencies
+RUN ./common-depend.sh
+# build the software specific dependencies
+RUN ./${SOFTWARE}-depend.sh
 # build the software
-COPY ./config/${SOFTWARE}-build.sh /tmp/${SOFTWARE}-build.sh
-RUN ./${SOFTWARE}-build.sh && rm -rf /tmp/*
+RUN ./${SOFTWARE}-build.sh
+# clean up
+RUN shopt -s dotglob && rm -rf /tmp/*
 
 ################################################################################
 #   Build stage 2 - compress to 1 layer

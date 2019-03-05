@@ -1,0 +1,25 @@
+#!/bin/bash -e
+
+notif=" Environment: "
+other="##############"
+comment="########################"
+
+echo -e "\n${comment}${notif}${comment}\n"
+env
+echo -e "\n${comment}${other}${comment}\n"
+
+
+while [ ! -f "${PWD}/Dockerfile" ]; do
+    cd ..
+done
+
+echo "PWD: $(pwd)"
+
+if [ "${DOCKER_REPO}" = "geantx/geant4" ]; then
+    docker-compose build --parallel geant4
+elif [ "${DOCKER_REPO}" = "geantx/geantv" ]; then
+    docker-compose build --parallel geantx
+else
+    echo -e "\n${comment}${other}${comment}\n\nError:\n\tUnknown value for DOCKER_REPO=\"${DOCKER_REPO}\"\nExiting...\n\n${comment}${other}${comment}\n"
+    exit 1
+fi

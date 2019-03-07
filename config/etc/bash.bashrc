@@ -5,14 +5,16 @@
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/bin"
 export PATH
 
-if [ -d /etc/bashrc.d ]; then
-    for i in /etc/bashrc.d/*.sh; do
-        if [ -r $i ]; then
-            . $i
-        fi
-    done
-    unset i
-fi
+for j in profile bashrc
+do
+    if [ -d /etc/${j}.d ]; then
+        for i in /etc/${j}.d/*.sh; do
+            if [ -r ${i} ]; then
+                . ${i}
+            fi
+        done
+    fi
+done
 
 #------------------------------------------------------------------------------#
 #                           Useful functions

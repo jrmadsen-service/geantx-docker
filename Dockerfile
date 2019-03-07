@@ -55,7 +55,7 @@ RUN ./${SOFTWARE}-depend.sh
 # build the software
 RUN ./${SOFTWARE}-build.sh
 # clean up
-RUN shopt -s dotglob && rm -rf /tmp/*
+RUN rm -rf /tmp/*
 
 ################################################################################
 #   Build stage 2 - compress to 1 layer
@@ -71,6 +71,12 @@ ENV LC_ALL C
 ENV SHELL /bin/bash
 ENV BASH_ENV /etc/bash.bashrc
 ENV DEBIAN_FRONTEND noninteractive
+
+ARG REQUIRE_CUDA_VERSION=10.0
+ENV CUDA_HOME "/usr/local/cuda"
+ENV NVIDIA_REQUIRE_CUDA "cuda>=${REQUIRE_CUDA_VERSION}"
+ENV NVIDIA_VISIBLE_DEVICES "all"
+ENV NVIDIA_DRIVER_CAPABILITIES "compute,utility"
 
 #------------------------------------------------------------------------------#
 #   interactive settings and startup

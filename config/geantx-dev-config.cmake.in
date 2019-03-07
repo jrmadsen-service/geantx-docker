@@ -1,0 +1,19 @@
+
+# cmake settings
+set(CMAKE_INSTALL_PREFIX        /usr/local          CACHE PATH      "Installation prefix")
+set(CMAKE_BUILD_TYPE            @BUILD_TYPE@        CACHE STRING    "Build type")
+
+# general settings
+set(BUILD_SHARED_LIBS           @SHARED@            CACHE BOOL      "Enable shared libraries")
+set(BUILD_STATIC_LIBS           @STATIC@            CACHE BOOL      "Disable static libraries")
+
+# build settings
+set(USE_ROOT                    ON                  CACHE BOOL      "Enable ROOT")
+set(DATA_DOWNLOAD               ON                  CACHE BOOL      "Enable downloading data")
+set(NO_SPECIALIZATION           ON                  CACHE BOOL      "Disable specialization")
+set(BUILTIN_VECCORE             OFF                 CACHE BOOL      "Builtin VecCore")
+set(CUDA_VOLUME_SPECIALIZATION  @USE_CUDA@          CACHE BOOL      "CUDA volume specialization")
+set(CUDA                        @USE_CUDA@          CACHE BOOL      "Enable CUDA")
+set(WITH_GEANT4                 @USE_GEANT4@        CACHE BOOL      "Enable Geant4")
+set(BACKEND                     @VECGEOM_BACKEND@   CACHE STRING    "Set the VecGeom backend")
+set(VECGEOM_VECTOR              @VECGEOM_VECTOR@    CACHE STRING    "Set the VecGeom vector")

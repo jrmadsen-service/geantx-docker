@@ -33,6 +33,16 @@ elif [ "${DOCKER_REPO}" = "geantx/geantv" ]; then
         --build-arg BUILD_TYPE="Release" \
         --build-arg TIMEMORY="ON" \
         --build-arg SOFTWARE="geantv"
+elif [ "${DOCKER_REPO}" = "geantx/geantx-dev" ]; then
+    run-verbose \
+        docker build . -t ${IMAGE_NAME} \
+        --build-arg BASE_IMG="nvidia/cuda" \
+        --build-arg BASE_TAG="latest" \
+        --build-arg COMPILER_TYPE="gcc" \
+        --build-arg COMPILER_VERSION="7" \
+        --build-arg BUILD_TYPE="Release" \
+        --build-arg TIMEMORY="ON" \
+        --build-arg SOFTWARE="geantx-dev"
 else
     echo -e "\n${comment}\n#\n# Error: Unknown value for DOCKER_REPO=\"${DOCKER_REPO}\"\n# Exiting...\n#\n${comment}\n"
     exit 1

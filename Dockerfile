@@ -78,6 +78,11 @@ ENV NVIDIA_REQUIRE_CUDA "cuda>=${REQUIRE_CUDA_VERSION}"
 ENV NVIDIA_VISIBLE_DEVICES "all"
 ENV NVIDIA_DRIVER_CAPABILITIES "compute,utility"
 
+ENV CC /usr/bin/cc
+ENV CXX /usr/bin/c++
+ENV CUDACC /usr/local/cuda/bin/nvcc
+ENV CUDACXX /usr/local/cuda/bin/nvcc
+
 #------------------------------------------------------------------------------#
 #   interactive settings and startup
 #------------------------------------------------------------------------------#

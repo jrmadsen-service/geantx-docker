@@ -57,7 +57,7 @@ run-verbose apt-get install -y \
     libxerces-c-dev libexpat1-dev libhdf5-dev libhdf5-openmpi-dev \
     xserver-xorg freeglut3-dev libx11-dev libx11-xcb-dev libxpm-dev libxft-dev libxmu-dev libxv-dev libxrandr-dev \
     libglew-dev libftgl-dev libxkbcommon-x11-dev libxrender-dev libxxf86vm-dev libxinerama-dev qt5-default \
-    python3-dev ninja-build clang-tidy clang-format \
+    python python-dev ninja-build clang-tidy clang-format \
     manpages manpages-dev cppman manpages-posix manpages-posix-dev \
     qtcreator emacs-nox vim-nox \
     libgoogle-perftools-dev google-perftools libtbb-dev valgrind

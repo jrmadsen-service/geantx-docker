@@ -27,58 +27,37 @@ run-verbose()
     eval $@
 }
 
-cd ${SOURCE_DIR}
-
-cd ${SOURCE_DIR}
-run-verbose git clone https://github.com/VcDevel/Vc.git
-cd Vc
-run-verbose git checkout ${VC_VERSION}
-
+# clone the repos
 cd ${SOURCE_DIR}
 run-verbose git clone https://github.com/root-project/VecCore.git
-cd VecCore
-run-verbose git checkout v0.5.2
-
-cd ${SOURCE_DIR}
 run-verbose git clone https://github.com/root-project/VecMath.git
-cd VecMath
-run-verbose git checkout master
-
-cd ${SOURCE_DIR}
 run-verbose git clone https://gitlab.cern.ch/VecGeom/VecGeom.git
 
 ### Environment settings
 
-: ${VECGEOM_VECTOR:=avx2}
-: ${VECGEOM_BACKEND:=vc}
-
-### Build Vc
-
-setup-build
-run-verbose cmake ${SOURCE_DIR}/Vc -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -G Ninja
-run-verbose cmake --build ${PWD} --target all
-run-verbose cmake --build ${PWD} --target install
+: ${VECGEOM_VECTOR:=avx}
+: ${VECGEOM_BACKEND:=scalar}
 
 ### Build VecCore
 
 setup-build
-run-verbose cmake ${SOURCE_DIR}/VecCore -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DVC=ON -G Ninja
+run-verbose cmake ${SOURCE_DIR}/VecCore -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DVC=OFF -G Ninja
 run-verbose cmake --build ${PWD} --target all
 run-verbose cmake --build ${PWD} --target install
 
 ### Build VecMath
 
 setup-build
-run-verbose cmake ${SOURCE_DIR}/VecMath -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DBACKEND=Vc
+run-verbose cmake ${SOURCE_DIR}/VecMath -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DBACKEND=scalar
 run-verbose cmake --build ${PWD} --target all
 run-verbose cmake --build ${PWD} --target install
 
 ### Build VecGeom
 
 setup-build
-run-verbose cmake -DBACKEND=${VECGEOM_BACKEND} \
+run-verbose cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
     -DBUILTIN_VECCORE=OFF \
-    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+    -DBACKEND=${VECGEOM_BACKEND} \
     -DCUDA=ON -DCUDA_VOLUME_SPECIALIZATION=OFF \
     -DNO_SPECIALIZATION=ON -DROOT=OFF \
     -DVECGEOM_VECTOR=${VECGEOM_VECTOR} \

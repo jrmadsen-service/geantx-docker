@@ -59,7 +59,8 @@ run-verbose apt-get install -y \
     libglew-dev libftgl-dev libxkbcommon-x11-dev libxrender-dev libxxf86vm-dev libxinerama-dev qt5-default \
     python3-dev ninja-build clang-tidy clang-format \
     manpages manpages-dev cppman manpages-posix manpages-posix-dev \
-    qtcreator emacs-nox vim-nox
+    qtcreator emacs-nox vim-nox \
+    libgoogle-perftools-dev google-perftools libtbb-dev valgrind
 
 #-----------------------------------------------------------------------------#
 #   ALTERNATIVES

@@ -111,5 +111,5 @@ bash miniconda.sh -b -p /opt/conda
 export PATH="/opt/conda/bin:${PATH}"
 conda config --set always_yes yes --set changeps1 no
 conda update -c defaults -n base conda
-conda install -c defaults -c conda-forge pyctest
+conda install -n base -c defaults -c conda-forge python pyctest pybind11
 conda clean -a -y

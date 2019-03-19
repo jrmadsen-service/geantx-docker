@@ -29,10 +29,8 @@ run-verbose()
 
 cd ${SOURCE_DIR}
 
-run-verbose git clone http://root.cern.ch/git/root.git
-
-# wget http://geant4-data.web.cern.ch/geant4-data/releases/geant4.10.04.p02.tar.gz
-# tar xfz geant4.10.04.p02.tar.gz
+# install ROOT via conda
+run-verbose conda install -n base -c conda-forge root
 
 cd ${SOURCE_DIR}
 run-verbose git clone https://github.com/VcDevel/Vc.git
@@ -58,19 +56,8 @@ cd ${SOURCE_DIR}
 run-verbose git clone https://gitlab.cern.ch/VecGeom/VecGeom.git
 
 ### Environment settings
-
-#export GEANT_PHYSICS_DATA=${INSTALL_DIR}/opt/share/Geant4-10.4.2/data
-#export GEANT_PHYSICS_DATA=/home/pcanal/vp/physics/data/
-: ${VECGEOM_VECTOR:=avx2}
+: ${VECGEOM_VECTOR:=avx}
 : ${VECGEOM_BACKEND:=vc}
-
-### Build ROOT
-
-setup-build
-run-verbose cmake ${SOURCE_DIR}/root -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -G Ninja
-run-verbose cmake --build ${PWD} --target all
-run-verbose cmake --build ${PWD} --target install
-. ${INSTALL_DIR}/bin/thisroot.sh
 
 ### Build Vc
 
@@ -103,9 +90,9 @@ run-verbose cmake --build ${PWD} --target install
 ### Build VecGeom
 
 setup-build
-run-verbose cmake -DBACKEND=${VECGEOM_BACKEND} \
+run-verbose cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
     -DBUILTIN_VECCORE=OFF \
-    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+    -DBACKEND=${VECGEOM_BACKEND} \
     -DCUDA=OFF -DCUDA_VOLUME_SPECIALIZATION=OFF \
     -DNO_SPECIALIZATION=ON -DROOT=ON \
     -DVECGEOM_VECTOR=${VECGEOM_VECTOR} \

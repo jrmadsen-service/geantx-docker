@@ -61,6 +61,25 @@ services:
           SOFTWARE: "geantx-dev"
 
     #--------------------------------------------------------------------------#
+    # GeantX development container
+    geantx-dev-edge:
+      image: geantx/geantx-dev:cuda10.1
+      stdin_open: true
+      tty: true
+      build:
+        context: .
+        dockerfile: Dockerfile
+        args:
+          BASE_IMG: "nvidia/cuda"
+          BASE_TAG: "10.1-devel-ubuntu18.04"
+          COMPILER_TYPE: "gcc"
+          COMPILER_VERSION: "7"
+          BUILD_TYPE: "Release"
+          TIMEMORY: "ON"
+          SOFTWARE: "geantx-dev"
+          REQUIRE_CUDA_VERSION: "10.1"
+
+    #--------------------------------------------------------------------------#
     # Geant4 + GeantV container
     geant4v:
       image: geantx/geant4v

@@ -17,8 +17,10 @@ ENV DEBIAN_FRONTEND noninteractive
 WORKDIR /tmp
 
 # build and env args used by package-manager
-ARG COMPILER
-ENV COMPILER        ${COMPILER}
+ARG COMPILER_TYPE
+ARG COMPILER_VERSION
+ENV COMPILER_TYPE ${COMPILER_TYPE}
+ENV COMPILER_VERSION ${COMPILER_VERSION}
 
 # package-manager configuration
 COPY ./config/apt.sh /tmp/apt.sh

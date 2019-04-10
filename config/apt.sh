@@ -60,7 +60,7 @@ run-verbose apt-get install -y \
     python python-dev ninja-build clang-tidy clang-format \
     manpages manpages-dev cppman manpages-posix manpages-posix-dev \
     qtcreator emacs-nox vim-nox \
-    libgoogle-perftools-dev google-perftools libtbb-dev valgrind
+    libgoogle-perftools-dev google-perftools libtbb-dev valgrind libpapi-dev papi-tools
 
 #-----------------------------------------------------------------------------#
 #   ALTERNATIVES

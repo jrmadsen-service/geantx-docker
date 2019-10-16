@@ -3,7 +3,7 @@
 ROOT_DIR=${PWD}
 if [ "${TIMEMORY}" = "ON" ]; then
     export PATH=/opt/conda/bin:${PATH}
-    : ${TIMEMORY_BRANCH:="graph-storage"}
+    : ${TIMEMORY_BRANCH:="master"}
     git clone -b ${TIMEMORY_BRANCH} https://github.com/jrmadsen/TiMemory.git timemory-source
     cd timemory-source
     SOURCE_DIR=${PWD}

@@ -9,6 +9,7 @@ run-verbose()
 
 # enable manpages to be installed
 sed -i 's/path-exclude/# path-exclude/g' /etc/dpkg/dpkg.cfg.d/excludes
+DISTRIB_CODENAME=$(cat /etc/lsb-release | grep DISTRIB_CODENAME | sed 's/=/ /' | awk '{print $NF}')
 
 #-----------------------------------------------------------------------------#
 #
@@ -17,8 +18,11 @@ sed -i 's/path-exclude/# path-exclude/g' /etc/dpkg/dpkg.cfg.d/excludes
 #-----------------------------------------------------------------------------#
 
 run-verbose apt-get update
-run-verbose apt-get install -y software-properties-common
+run-verbose apt-get install -y software-properties-common apt-transport-https ca-certificates gnupg software-properties-common wget
+wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add -
+apt-add-repository "deb https://apt.kitware.com/ubuntu/ ${DISTRIB_CODENAME} main"
 run-verbose add-apt-repository -u -y ppa:ubuntu-toolchain-r/test
+run-verbose apt-get update
 run-verbose apt-get dist-upgrade -y
 
 #-----------------------------------------------------------------------------#
@@ -54,13 +58,13 @@ fi
 #-----------------------------------------------------------------------------#
 
 run-verbose apt-get install -y \
-    libxerces-c-dev libexpat1-dev libhdf5-dev libhdf5-openmpi-dev \
+    libxerces-c-dev libexpat1-dev libhdf5-dev libhdf5-mpich-dev libmpich-dev mpich \
     xserver-xorg freeglut3-dev libx11-dev libx11-xcb-dev libxpm-dev libxft-dev libxmu-dev libxv-dev libxrandr-dev \
     libglew-dev libftgl-dev libxkbcommon-x11-dev libxrender-dev libxxf86vm-dev libxinerama-dev qt5-default \
     python python-dev ninja-build clang-tidy clang-format \
     manpages manpages-dev cppman manpages-posix manpages-posix-dev \
-    qtcreator emacs-nox vim-nox \
-    libgoogle-perftools-dev google-perftools libtbb-dev valgrind libpapi-dev papi-tools
+    qtcreator emacs-nox vim-nox cmake-curses-gui \
+    libgoogle-perftools-dev google-perftools libtbb-dev valgrind papi-tools libpapi-dev
 
 #-----------------------------------------------------------------------------#
 #   ALTERNATIVES
@@ -106,10 +110,14 @@ run-verbose rm -rf /var/lib/apt/lists/*
 #-----------------------------------------------------------------------------#
 #   CONDA
 #-----------------------------------------------------------------------------#
-wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-bash miniconda.sh -b -p /opt/conda
-export PATH="/opt/conda/bin:${PATH}"
-conda config --set always_yes yes --set changeps1 no
-conda update -c defaults -n base conda
-conda install -n base -c defaults -c conda-forge python=3.6 pyctest
+if [ ! -d /opt/conda ]; then
+    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    bash miniconda.sh -b -p /opt/conda
+    export PATH="/opt/conda/bin:${PATH}"
+    conda config --set always_yes yes --set changeps1 no
+    # conda update -c defaults -n base conda
+    conda install -n base -c defaults -c conda-forge python=3.6 pyctest
+else
+    export PATH="/opt/conda/bin:${PATH}"
+fi
 conda clean -a -y

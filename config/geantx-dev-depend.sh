@@ -36,7 +36,7 @@ run-verbose git clone https://gitlab.cern.ch/VecGeom/VecGeom.git
 ### Environment settings
 
 : ${VECGEOM_VECTOR:=avx}
-: ${VECGEOM_BACKEND:=scalar}
+: ${VECGEOM_BACKEND:=Scalar}
 
 ### Build VecCore
 
@@ -56,6 +56,7 @@ run-verbose cmake --build ${PWD} --target install
 
 setup-build
 run-verbose cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+    -DVALIDATION=OFF -DCTEST=OFF \
     -DBUILTIN_VECCORE=OFF \
     -DBACKEND=${VECGEOM_BACKEND} \
     -DCUDA=ON -DCUDA_VOLUME_SPECIALIZATION=OFF \
